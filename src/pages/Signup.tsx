@@ -32,11 +32,16 @@ export function Signup() {
       return;
     }
 
+    if (signupMode === 'phone' && phone.length < 10) {
+      setError('אנא הזן מספר טלפון תקין');
+      return;
+    }
+
     setLoading(true);
 
     try {
       if (signupMode === 'phone') {
-        const { data, error } = await supabase.auth.signInWithOtp({
+        const { error } = await supabase.auth.signInWithOtp({
           phone: phone,
           options: {
             data: {
@@ -45,7 +50,11 @@ export function Signup() {
           }
         });
 
-        if (error) throw error;
+        if (error) {
+          setError(error.message || 'שגיאה בשליחת קוד אימות');
+          setLoading(false);
+          return;
+        }
 
         localStorage.setItem('signup_phone_number', phone);
         localStorage.setItem('signup_full_name', fullName);

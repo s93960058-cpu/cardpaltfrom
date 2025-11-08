@@ -15,6 +15,7 @@ import { CreateAdmin } from '../pages/CreateAdmin';
 import { Contact } from '../pages/Contact';
 import { VerifyEmail } from '../pages/VerifyEmail';
 import { Pricing } from '../pages/Pricing';
+import { BusinessPlans } from '../pages/BusinessPlans';
 import { AuthCallback } from '../pages/AuthCallback';
 import { NotFound } from '../pages/NotFound';
 
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
   {
     path: '/pricing',
     element: <Pricing />,
+  },
+  {
+    path: '/business-plans',
+    element: <BusinessPlans />,
   },
   {
     path: '/auth/callback',

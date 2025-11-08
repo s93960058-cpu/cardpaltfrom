@@ -22,15 +22,25 @@ export function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (loginMode === 'phone' && phone.length < 10) {
+      setError('אנא הזן מספר טלפון תקין');
+      return;
+    }
+
     setLoading(true);
 
     try {
       if (loginMode === 'phone') {
-        const { data, error } = await supabase.auth.signInWithOtp({
+        const { error } = await supabase.auth.signInWithOtp({
           phone: phone
         });
 
-        if (error) throw error;
+        if (error) {
+          setError(error.message || 'שגיאה בשליחת קוד אימות');
+          setLoading(false);
+          return;
+        }
 
         localStorage.setItem('login_phone_number', phone);
         setOtpSent(true);
